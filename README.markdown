@@ -16,19 +16,23 @@ Postfixer will help you get Postfix configured and set up [SPF (Sender Policy Fr
 
 There are several common reasons your outgoing email may be marked as spam
 
-* __Problem__: The server IP is on a [blacklist][DNSBL Lookup] of known spam servers.
+__Problem__: The server IP is on a [blacklist][DNSBL Lookup] of known spam servers.
+
 * __Solution__: Don't send spam!  Secure your mail transfer agent to ensure it's not being used to relay spam.
 * __Solution__: Follow up with the blacklist maintainers to have your IP address removed from their listing.
 
-* __Problem__: DNS configuration checks fail
+__Problem__: DNS configuration checks fail
+
 * __Solution__: If you use 192.168.1.1 to send email from hostname.example.com, ensure that a reverse DNS lookup for 192.168.1.1 returns hostname.example.com
 * __Solution__: Set up the appropriate SPF entries in DNS
 * __Solution__: Use DKIM to validate that the email server is being run by the domain's owner
 
-* __Problem__: Aggressive spam filters still flag your messages since they haven't whitelisted you yet
+__Problem__: Aggressive spam filters still flag your messages since they haven't whitelisted you yet
+
 * __Solution__: ?
 
-* __Problem__: All of the above
+__Problem__: All of the above
+
 * __Solution__: Use a dedicated (for pay) email delivery service such as [AuthSMTP][AuthSMTP]
 
 # How to use
@@ -96,7 +100,6 @@ Send a test email to the [port25 verifier](http://www.port25.com/domainkeys/).  
 
     cap email:send_test_email
 
-# References
 
 [SMTP Tarpits]: http://en.wikipedia.org/wiki/Tarpit_%28networking%29#SMTP_tarpits
 [DNSBL]: http://en.wikipedia.org/wiki/DNSBL "DNSBL (DNS Blackhole List)"
