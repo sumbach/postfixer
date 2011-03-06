@@ -85,7 +85,10 @@ Ensure that DNS entries for canonical_hostname are set properly:
 
     cap email:check_dns
 
-You may also want to run the [DomainKey Policy Record Tester](http://domainkeys.sourceforge.net/policycheck.html) for more details.
+You may also want to run these validators:
+
+* [DNS Validation](http://www.dnsvalidation.com/): awesome tool, clearly lists problems and corrective actions
+* [DomainKey Policy Record Tester](http://domainkeys.sourceforge.net/policycheck.html)
 
 ## Ensure outgoing email is properly signed and passing SPAM filters
 
