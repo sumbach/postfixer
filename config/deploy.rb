@@ -155,7 +155,7 @@ namespace :email do
 
     sudo "/usr/bin/newaliases"
     sudo "postmap /etc/postfix/generic"
-    sudo "hostname -b -F /etc/hostname"
+    sudo "hostname -F /etc/hostname"
   end
 
   task :restart, :roles => [:email] do
