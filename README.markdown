@@ -100,6 +100,15 @@ Send a test email to the [port25 verifier](http://www.port25.com/domainkeys/).  
 
     cap email:send_test_email
 
+# Contributing
+
+* Please report bugs and feature requests in [Github issues](http://github.com/sumbach/postfixer/issues)
+* Pull requests and patches welcome!
+
+# License
+
+Postfixer is released under the MIT license.  See LICENSE for details.
+
 
 [SMTP Tarpits]: http://en.wikipedia.org/wiki/Tarpit_%28networking%29#SMTP_tarpits
 [DNSBL]: http://en.wikipedia.org/wiki/DNSBL "DNSBL (DNS Blackhole List)"
