@@ -1,0 +1,11 @@
+canonical_hostname: hostname.example.com
+additional_hostnames:
+  - blog.example.com
+email_domains:
+  - example.com
+forwarding_address: errors@example.com
+envelope_sender: bounces@example.com
+application_user: deploy
+
+sudo_user: admin
+address: hostname.example.com

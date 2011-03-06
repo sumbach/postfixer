@@ -1,0 +1,15 @@
+# See man 5 aliases for format
+mailer-daemon: postmaster
+postmaster:    root
+nobody:        root
+hostmaster:    root
+usenet:        root
+news:          root
+webmaster:     root
+www:           root
+ftp:           root
+abuse:         root
+noc:           root
+security:      root
+root:          <%= application_user %>
+<%= application_user %>: <%= forwarding_address %>

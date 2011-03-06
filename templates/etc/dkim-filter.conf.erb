@@ -1,0 +1,52 @@
+# Log to syslog
+Syslog			yes
+# Required to use local socket with MTAs that access the socket as a non-
+# privileged user (e.g. Postfix)
+#UMask			002
+
+# Sign for example.com with key in /etc/mail/dkim.key using
+# selector '2007' (e.g. 2007._domainkey.example.com)
+Domain			<%= email_domains.join(',') %>
+KeyFile			/etc/mail/dkim.key
+Selector		<%= dkim_selector %>
+
+# Common settings. See dkim-filter.conf(5) for more information.
+#AutoRestart		no
+#Background		yes
+#Canonicalization	simple
+#DNSTimeout		5
+Mode				s
+#SignatureAlgorithm	rsa-sha256
+#SubDomains		no
+#ADSPDiscard		no
+#Version		rfc4871
+X-Header		yes
+
+###############################################
+# Other (less-standard) configuration options #
+###############################################
+# 
+# If enabled, log verification stats here
+#Statistics		/var/log/dkim-filter/dkim-stats
+#
+# KeyList is a file containing tuples of key information. Requires
+# KeyFile to be unset. Each line of the file should be of the format:
+#    sender glob:signing domain:signing key file
+# Blank lines and lines beginning with # are ignored. Selector will be
+# derived from the key's filename.
+#KeyList		/etc/dkim-keys.conf
+#
+# If enabled, will generate verification failure reports for any messages
+# that fail signature verification. These will be sent to the r= address
+# in the policy record, if any.
+#SendReports		yes
+#
+# If enabled, will issue a Sendmail QUARANTINE for any messages that fail
+# signature verification, allowing them to be inspected later.
+#Quarantine		yes
+#
+# If enabled, will check for required headers when processing messages.
+# At a minimum, that means From: and Date: will be required. Messages not
+# containing the required headers will not be signed or verified, but will
+# be passed through
+#RequiredHeaders	yes
