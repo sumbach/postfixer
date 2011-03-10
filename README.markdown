@@ -33,7 +33,9 @@ __Problem__: Aggressive spam filters still flag your messages since they haven't
 
 __Problem__: All of the above
 
-* __Solution__: Use a dedicated (for pay) email delivery service such as [AuthSMTP][AuthSMTP]
+* __Solution__: Use a dedicated (for pay) email delivery service such as [SendGrid][SendGrid], [AuthSMTP][AuthSMTP], [Postmark][Postmark], [Amazon SES][Amazon SES], or [SocketLabs][SocketLabs]
+
+Check out this [awesome blog entry from SendGrid](http://blog.sendgrid.com/10-tips-to-keep-email-out-of-the-spam-folder/) for more ideas
 
 # How to use
 
@@ -120,4 +122,8 @@ Postfixer is released under the MIT license.  See LICENSE for details.
 [ADSP]: http://en.wikipedia.org/wiki/Author_Domain_Signing_Practices
 [DKIM-milter]: http://www.sendmail.com/sm/wp/dkim/
 [DKIM-milter configuration]: http://www.elandsys.com/resources/sendmail/dkim.html
+[SendGrid]: http://sendgrid.com/
 [AuthSMTP]: http://www.authsmtp.com/
+[Postmark]: http://postmarkapp.com/
+[Amazon SES]: http://aws.amazon.com/ses/
+[SocketLabs]: http://socketlabs.com/
