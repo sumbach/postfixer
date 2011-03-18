@@ -179,7 +179,8 @@ namespace :email do
     puts "For SPF to work, you will need to add the following DNS entries:\n\n"
     email_domains.each do |domain|
       puts <<-EOF
-        #{domain}. IN TXT "v=spf1 mx a:#{canonical_hostname} include:_spf.google.com ~all"
+        spf.#{domain}. IN TXT "v=spf1 a:#{canonical_hostname} include:_spf.google.com ~all"
+        #{domain}.     IN TXT "v=spf1 mx include:spf.#{domain} ~all"
 
       EOF
     end
