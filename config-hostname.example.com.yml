@@ -1,3 +1,6 @@
+#
+# config-hostname.example.com.yml
+#
 canonical_hostname: hostname.example.com
 additional_hostnames:
   - blog.example.com
