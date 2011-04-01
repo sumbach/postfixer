@@ -60,7 +60,7 @@ Update your config in config-mysever.mydomain.com.yml:
   * This may be a black hole
   * NOTE: This address should be in one of email\_domains
 * __application\_user__: Local user account under which your application runs
-  * Emails addressed to this account will be send to forwarding\_address
+  * Emails addressed to this account will be sent to forwarding\_address
 * __sudo\_user__: Local user account with root sudo permissions
 * __address__: FQDN or IP address used to SSH into this server
 
