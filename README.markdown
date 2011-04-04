@@ -1,6 +1,6 @@
 # What is Postfixer?
 
-Postfixer is a configurable collection of capistrano tasks to assist you in installing and configuring Postfix.
+Postfixer is a configurable collection of [Capistrano][Capistrano] tasks to assist you in installing and configuring Postfix.
 
 # Why do I need it?
 
@@ -34,6 +34,8 @@ __Problem__: Aggressive spam filters still flag your messages since they haven't
 __Problem__: All of the above
 
 * __Solution__: Use a dedicated (for pay) email delivery service such as [SendGrid][SendGrid], [AuthSMTP][AuthSMTP], [Postmark][Postmark], [Amazon SES][Amazon SES], or [SocketLabs][SocketLabs]
+* __Solution__: Deploy to Heroku and use the [Sendgrid Add-on][Heroku Sendgrid Add-on]. It requires no configuration and the free edition delivers up to 200 emails per day.
+
 
 Check out this [awesome blog entry from SendGrid](http://blog.sendgrid.com/10-tips-to-keep-email-out-of-the-spam-folder/) for more ideas
 
@@ -93,37 +95,69 @@ Ensure that DNS entries for canonical_hostname are set properly:
 
 You may also want to run these validators:
 
-* [DNS Validation](http://www.dnsvalidation.com/): awesome tool, clearly lists problems and corrective actions
-* [DomainKey Policy Record Tester](http://domainkeys.sourceforge.net/policycheck.html)
+* [DNS Validation][DNS Validation]: awesome tool, clearly lists problems and corrective actions
+* [DomainKey Policy Record Tester][DomainKey Policy Record Tester]
 
 ## Ensure outgoing email is properly signed and passing SPAM filters
 
-Send a test email to the [port25 verifier](http://www.port25.com/domainkeys/).  In response, the verifier sends a message verifying the 
+Send a test email to the [port25 verifier][port25 verifier].  In response, the verifier sends a message verifying the
 
     cap email:send_test_email
 
+# Limitations
+
+* Postfixer has only been tested on Ubuntu servers
+  * It _should_ work on any Debian-based distribution
+  * RedHat users: patches welcome
+  * Even if you're running an unsupported distribution, you can still use generate\_config, print\_dns, check\_dns and send\_test\_email
+* Postfixer assumes you're using Postfix as your [MTA][Message transfer agent]
+  * If you're using another MTA (such as [Exim][Exim] or [Sendmail][Sendmail]), the same concepts apply, but you'll ned to work out the configuration details
+  * Note: Postfixer is only concerned with the MTA used to send email from an application server.  You can use Postfix on application servers while using a different MTA and [MDA][Message delivery agent] on the mail exchangers for your domain.
+* Posfixer does not (yet) support [Yahoo DomainKeys][Yahoo DomainKeys]
+  * It does support the newer [DKIM (DomainKeys Identified Mail)][DKIM] standard which has largely displaced Yahoo's legacy solution.
+* The DNS report assumes you're using Google Apps (who isn't?)
+  * If you're using your ISP's or your own incoming mail server, replace "include:\_spf.google.com" in the [SPF][SPF] records with something appropriate to your setup
+* Postfixer does not (yet) check if your server is on a [blacklist][DNSBL]
+  * I recommend the awesome [DNSBL Lookup][DNSBL Lookup] tool from mxtoolbox.com
+  * If your server is on a blacklist, you'll need to request to be removed (the process should be available on the blacklist provider's web site)
+* Postfixer does not check for general DNS issues
+  * but I recommend [DNS Validation][DNS Validation]
+
 # Contributing
 
-* Please report bugs and feature requests in [Github issues](http://github.com/sumbach/postfixer/issues)
-* Pull requests and patches welcome!
+* Please report bugs and feature requests in [Github issues][Github issues]
+* [Pull requests][Pull requests] and patches welcome!
 
 # License
 
 Postfixer is released under the MIT license.  See LICENSE for details.
 
 
-[SMTP Tarpits]: http://en.wikipedia.org/wiki/Tarpit_%28networking%29#SMTP_tarpits
-[DNSBL]: http://en.wikipedia.org/wiki/DNSBL "DNSBL (DNS Blackhole List)"
-[DNSBL Lookup]: http://www.mxtoolbox.com/blacklists.aspx
+[Capistrano]: https://github.com/capistrano/capistrano/wiki
 [Postfix]: http://www.postfix.org/
-[Postfix configuration]: http://www.postfix.org/documentation.html
 [SPF]: http://www.openspf.org/
 [DKIM]: http://www.dkim.org/
 [ADSP]: http://en.wikipedia.org/wiki/Author_Domain_Signing_Practices
-[DKIM-milter]: http://www.sendmail.com/sm/wp/dkim/
-[DKIM-milter configuration]: http://www.elandsys.com/resources/sendmail/dkim.html
+[DNSBL]: http://en.wikipedia.org/wiki/DNSBL "DNSBL (DNS Blackhole List)"
+[DNSBL Lookup]: http://www.mxtoolbox.com/blacklists.aspx
 [SendGrid]: http://sendgrid.com/
 [AuthSMTP]: http://www.authsmtp.com/
 [Postmark]: http://postmarkapp.com/
 [Amazon SES]: http://aws.amazon.com/ses/
 [SocketLabs]: http://socketlabs.com/
+[Heroku Sendgrid Add-on]: http://addons.heroku.com/sendgrid
+[DNS Validation]: http://www.dnsvalidation.com/
+[DomainKey Policy Record Tester]: http://domainkeys.sourceforge.net/policycheck.html
+[port25 verifier]: http://www.port25.com/domainkeys/
+[Message transfer agent]: http://wikipedia.org/wiki/Message_transfer_agent
+[Exim]: http://www.exim.org/
+[Sendmail]: http://www.sendmail.org/
+[Message delivery agent]: http://wikipedia.org/wiki/Mail_Delivery_Agent
+[Yahoo DomainKeys]: http://antispam.yahoo.com/domainkeys
+[Github issues]: http://github.com/sumbach/postfixer/issues
+[Pull requests]: http://help.github.com/pull-requests/
+
+[SMTP Tarpits]: http://en.wikipedia.org/wiki/Tarpit_%28networking%29#SMTP_tarpits
+[Postfix configuration]: http://www.postfix.org/documentation.html
+[DKIM-milter]: http://www.sendmail.com/sm/wp/dkim/
+[DKIM-milter configuration]: http://www.elandsys.com/resources/sendmail/dkim.html
