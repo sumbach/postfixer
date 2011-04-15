@@ -24,8 +24,9 @@ CONFIG_FILES = [
   {:path => "/etc/postfix/generic",   :mode => 0644, :owner => "root:root"},
   {:path => "/etc/postfix/main.cf",   :mode => 0644, :owner => "root:root"},
   {:path => "/etc/opendkim.conf",     :mode => 0644, :owner => "root:root"},
-  {:path => "/etc/mail/dkim.key",     :mode => 0400, :owner => "root:root"},
-  {:path => "/etc/mail/dkim.key.pub", :mode => 0444, :owner => "root:root"},
+  {:path => "/etc/mail/dkim.key",     :mode => 0440, :owner => "dk-filter:dk-filter"},
+  {:path => "/etc/mail/dkim.key.pub", :mode => 0444, :owner => "dk-filter:dk-filter"},
+  {:path => "/etc/default/dk-filter", :mode => 0644, :owner => "root:root"},
 ]
 
 def config_file_paths
@@ -105,7 +106,7 @@ namespace :email do
   task :install_packages, :roles => [:email] do
     # assume Ubuntu/Debian
     apt_update
-    apt_install(%w{postfix opendkim})
+    apt_install(%w{postfix opendkim dk-filter})
   end
 
   task :backup_config, :roles => [:email] do
@@ -156,13 +157,17 @@ namespace :email do
     sudo "/usr/bin/newaliases"
     sudo "postmap /etc/postfix/generic"
     sudo "hostname -F /etc/hostname"
+
+    # add user opendkim to groups dk-filter so they can both read the dkim key
+    sudo "usermod --append --groups dk-filter opendkim"
   end
 
   task :restart, :roles => [:email] do
-    # NOTE: starting opendkim over a pty fails
+    # NOTE: starting opendkim over a pty fails on Ubuntu 10.10 Maverick
     # Reported 20110415 to Ubuntu package maintainers (https://bugs.launchpad.net/ubuntu/+source/opendkim/+bug/761967)
     # Reported 20110415 to OpenDKIM mailing list (opendkim-users@lists.opendkim.org)
     sudo "/etc/init.d/opendkim restart", :pty => false
+    sudo "/etc/init.d/dk-filter restart", :pty => false
     sudo "/etc/init.d/postfix restart"
   end
 

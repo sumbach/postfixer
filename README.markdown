@@ -10,7 +10,7 @@ Out of the box, [Postfix][Postfix] is not configured to deliver your application
 * Email to local users (such as error messages from cron) will never by delivered.
 * Email is likely to be marked as spam by recipients since it will not be cryptographically signed.
 
-Postfixer will help you get Postfix configured and set up [SPF (Sender Policy Framework)][SPF], [DKIM (DomainKeys Identified Mail)][DKIM], and [ADSP (Author Domain Signing Practices)][ADSP] for your domain.
+Postfixer will help you get Postfix configured and set up [SPF (Sender Policy Framework)][SPF], [Yahoo DomainKeys][Yahoo DomainKeys], [DKIM (DomainKeys Identified Mail)][DKIM], and [ADSP (Author Domain Signing Practices)][ADSP] for your domain.
 
 # Why are my emails being marked as SPAM?
 
@@ -115,8 +115,6 @@ Send a test email to the [port25 verifier][port25 verifier].  In response, the v
 * Postfixer assumes you're using Postfix as your [MTA][Message transfer agent]
   * If you're using another MTA (such as [Exim][Exim] or [Sendmail][Sendmail]), the same concepts apply, but you'll ned to work out the configuration details
   * Note: Postfixer is only concerned with the MTA used to send email from an application server.  You can use Postfix on application servers while using a different MTA and [MDA][Message delivery agent] on the mail exchangers for your domain.
-* Posfixer does not (yet) support [Yahoo DomainKeys][Yahoo DomainKeys]
-  * It does support the newer [DKIM (DomainKeys Identified Mail)][DKIM] standard which has largely displaced Yahoo's legacy solution.
 * The DNS report assumes you're using Google Apps (who isn't?)
   * If you're using your ISP's or your own incoming mail server, replace "include:\_spf.google.com" in the [SPF][SPF] records with something appropriate to your setup
 * Postfixer does not (yet) check if your server is on a [blacklist][DNSBL]
@@ -139,6 +137,7 @@ Postfixer is released under the MIT license.  See LICENSE for details.
 [Postfix]: http://www.postfix.org/
 [SPF]: http://www.openspf.org/
 [DKIM]: http://www.dkim.org/
+[Yahoo DomainKeys]: http://antispam.yahoo.com/domainkeys
 [ADSP]: http://en.wikipedia.org/wiki/Author_Domain_Signing_Practices
 [DNSBL]: http://en.wikipedia.org/wiki/DNSBL "DNSBL (DNS Blackhole List)"
 [DNSBL Lookup]: http://www.mxtoolbox.com/blacklists.aspx
@@ -155,7 +154,6 @@ Postfixer is released under the MIT license.  See LICENSE for details.
 [Exim]: http://www.exim.org/
 [Sendmail]: http://www.sendmail.org/
 [Message delivery agent]: http://wikipedia.org/wiki/Mail_Delivery_Agent
-[Yahoo DomainKeys]: http://antispam.yahoo.com/domainkeys
 [Github issues]: http://github.com/sumbach/postfixer/issues
 [Pull requests]: http://help.github.com/pull-requests/
 
@@ -163,3 +161,6 @@ Postfixer is released under the MIT license.  See LICENSE for details.
 [Postfix configuration]: http://www.postfix.org/documentation.html
 [OpenDKIM]: http://www.opendkim.org/
 [OpenDKIM configuration]: http://www.opendkim.org/opendkim.conf.5.html
+[Sendmail DomainKeys]: http://www.elandsys.com/resources/sendmail/domainkeys.html
+[Ubuntu/PostfixDomainKeys]: https://help.ubuntu.com/community/Postfix/DomainKeys
+[Ubuntu/Postfix/DKIM]: https://help.ubuntu.com/community/Postfix/DKIM

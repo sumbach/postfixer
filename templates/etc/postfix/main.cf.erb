@@ -42,5 +42,5 @@ inet_interfaces = loopback-only
 # DKIM
 milter_default_action = accept
 milter_protocol = 2
-smtpd_milters = inet:localhost:8891
-non_smtpd_milters = inet:localhost:8891
+smtpd_milters = inet:localhost:8891,inet:localhost:8892
+non_smtpd_milters = inet:localhost:8891,inet:localhost:8892

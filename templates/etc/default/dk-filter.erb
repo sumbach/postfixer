@@ -1,0 +1,12 @@
+# Sane defaults: log to syslog
+DAEMON_OPTS="-l"
+# Sign for example.com with key in /etc/mail/domainkey.key using
+# selector '2007' (e.g. 2007._domainkey.example.com)
+DAEMON_OPTS="$DAEMON_OPTS -d <%= email_domains.join(',') %> -s /etc/mail/dkim.key -S <%= dkim_selector %>"
+# See dk-filter(8) for a complete list of options
+#
+# Uncomment to specify an alternate socket
+#SOCKET="/var/run/dk-filter/dk-filter.sock" # default
+#SOCKET="inet:54321" # listen on all interfaces on port 54321
+SOCKET="inet:8892@localhost" # listen on loopback on port 8892
+#SOCKET="inet:12345@192.0.2.1" # listen on 192.0.2.1 on port 12345
