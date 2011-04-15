@@ -106,10 +106,12 @@ Send a test email to the [port25 verifier][port25 verifier].  In response, the v
 
 # Limitations
 
-* Postfixer has only been tested on Ubuntu servers
+* Postfixer has only been tested on Ubuntu Lucid (10.04 LTS) and Maverick (10.10)
   * It _should_ work on any Debian-based distribution
   * RedHat users: patches welcome
   * Even if you're running an unsupported distribution, you can still use generate\_config, print\_dns, check\_dns and send\_test\_email
+* The opendkim package for Ubuntu is in the "universe" repository
+  * If email:install\_packages fails, you may need to manually uncomment the universe repos in /etc/apt/sources.list
 * Postfixer assumes you're using Postfix as your [MTA][Message transfer agent]
   * If you're using another MTA (such as [Exim][Exim] or [Sendmail][Sendmail]), the same concepts apply, but you'll ned to work out the configuration details
   * Note: Postfixer is only concerned with the MTA used to send email from an application server.  You can use Postfix on application servers while using a different MTA and [MDA][Message delivery agent] on the mail exchangers for your domain.
@@ -159,5 +161,5 @@ Postfixer is released under the MIT license.  See LICENSE for details.
 
 [SMTP Tarpits]: http://en.wikipedia.org/wiki/Tarpit_%28networking%29#SMTP_tarpits
 [Postfix configuration]: http://www.postfix.org/documentation.html
-[DKIM-milter]: http://www.sendmail.com/sm/wp/dkim/
-[DKIM-milter configuration]: http://www.elandsys.com/resources/sendmail/dkim.html
+[OpenDKIM]: http://www.opendkim.org/
+[OpenDKIM configuration]: http://www.opendkim.org/opendkim.conf.5.html

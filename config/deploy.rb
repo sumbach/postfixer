@@ -23,7 +23,7 @@ CONFIG_FILES = [
   {:path => "/etc/mailname",          :mode => 0644, :owner => "root:root"},
   {:path => "/etc/postfix/generic",   :mode => 0644, :owner => "root:root"},
   {:path => "/etc/postfix/main.cf",   :mode => 0644, :owner => "root:root"},
-  {:path => "/etc/dkim-filter.conf",  :mode => 0644, :owner => "root:root"},
+  {:path => "/etc/opendkim.conf",     :mode => 0644, :owner => "root:root"},
   {:path => "/etc/mail/dkim.key",     :mode => 0400, :owner => "root:root"},
   {:path => "/etc/mail/dkim.key.pub", :mode => 0444, :owner => "root:root"},
 ]
@@ -105,13 +105,13 @@ namespace :email do
   task :install_packages, :roles => [:email] do
     # assume Ubuntu/Debian
     apt_update
-    apt_install(%w{postfix dkim-filter})
+    apt_install(%w{postfix opendkim})
   end
 
   task :backup_config, :roles => [:email] do
     remote_archive = "/tmp/postfixer.#{Process.pid}"
     local_archive = "#{backup_dir}.tar.gz"
-    sudo "tar -czf #{remote_archive} $(ls #{config_file_paths.join(' ')})"
+    sudo "tar -czf #{remote_archive} $(ls #{config_file_paths.join(' ')} 2>/dev/null)"
     sudo "chown #{user} #{remote_archive}"
     get remote_archive, local_archive
     sudo "rm #{remote_archive}"
@@ -159,7 +159,10 @@ namespace :email do
   end
 
   task :restart, :roles => [:email] do
-    sudo "/etc/init.d/dkim-filter restart"
+    # NOTE: starting opendkim over a pty fails
+    # Reported 20110415 to Ubuntu package maintainers (https://bugs.launchpad.net/ubuntu/+source/opendkim/+bug/761967)
+    # Reported 20110415 to OpenDKIM mailing list (opendkim-users@lists.opendkim.org)
+    sudo "/etc/init.d/opendkim restart", :pty => false
     sudo "/etc/init.d/postfix restart"
   end
 

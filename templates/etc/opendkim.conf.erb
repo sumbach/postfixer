@@ -1,0 +1,22 @@
+# This is a basic configuration that can easily be adapted to suit a standard
+# installation. For more advanced options, see opendkim.conf(5) and/or
+# /usr/share/doc/opendkim/examples/opendkim.conf.sample.
+
+# Log to syslog
+Syslog			yes
+# Required to use local socket with MTAs that access the socket as a non-
+# privileged user (e.g. Postfix)
+UMask			002
+
+# Sign for example.com with key in /etc/mail/dkim.key using
+# selector '2007' (e.g. 2007._domainkey.example.com)
+Domain			<%= email_domains.join(',') %>
+KeyFile			/etc/mail/dkim.key
+Selector		<%= dkim_selector %>
+
+# Commonly-used options; the commented-out versions show the defaults.
+#Canonicalization	simple
+Mode				s
+#SubDomains		no
+#ADSPDiscard		no
+X-Header		yes
