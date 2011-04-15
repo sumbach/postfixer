@@ -68,7 +68,7 @@ Update your config in config-mysever.mydomain.com.yml:
 
 ## Install and Configure Postfix
 
-Set the CONFIG environment variable to the name of the config 
+Set the CONFIG environment variable to the name of the config
 
     export CONFIG=mysever.mydomain.com
     cap email:install_packages
