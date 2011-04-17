@@ -163,11 +163,13 @@ namespace :email do
   end
 
   task :restart, :roles => [:email] do
-    # NOTE: starting opendkim over a pty fails on Ubuntu 10.10 Maverick
+    # NOTE: There is a race condition starting opendkim and dk-filter over a pty
+    #   on Ubuntu 10.04 (lucid), 10.10 (maverick), and 11.04 (natty). The sleep
+    #   call holds the connection open long enough for the daemon to start.
     # Reported 20110415 to Ubuntu package maintainers (https://bugs.launchpad.net/ubuntu/+source/opendkim/+bug/761967)
     # Reported 20110415 to OpenDKIM mailing list (opendkim-users@lists.opendkim.org)
-    sudo "/etc/init.d/opendkim restart", :pty => false
-    sudo "/etc/init.d/dk-filter restart", :pty => false
+    run "#{sudo} /etc/init.d/opendkim  restart && sleep 1"
+    run "#{sudo} /etc/init.d/dk-filter restart && sleep 1"
     sudo "/etc/init.d/postfix restart"
   end
 
