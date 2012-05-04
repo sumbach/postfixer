@@ -1,4 +1,4 @@
-require 'FileUtils'
+require 'fileutils'
 require 'resolv'
 
 
@@ -24,8 +24,8 @@ CONFIG_FILES = [
   {:path => "/etc/postfix/generic",   :mode => 0644, :owner => "root:root"},
   {:path => "/etc/postfix/main.cf",   :mode => 0644, :owner => "root:root"},
   {:path => "/etc/opendkim.conf",     :mode => 0644, :owner => "root:root"},
-  {:path => "/etc/mail/dkim.key",     :mode => 0440, :owner => "dk-filter:dk-filter"},
-  {:path => "/etc/mail/dkim.key.pub", :mode => 0444, :owner => "dk-filter:dk-filter"},
+  {:path => "/etc/mail/dkim.key",     :mode => 0400, :owner => "opendkim:opendkim"},
+  {:path => "/etc/mail/dkim.key.pub", :mode => 0444, :owner => "opendkim:opendkim"},
   {:path => "/etc/default/dk-filter", :mode => 0644, :owner => "root:root"},
 ]
 
@@ -158,8 +158,8 @@ namespace :email do
     sudo "postmap /etc/postfix/generic"
     sudo "hostname -F /etc/hostname"
 
-    # add user opendkim to groups dk-filter so they can both read the dkim key
-    sudo "usermod --append --groups dk-filter opendkim"
+    # add user dk-filter to group opendkim so they can both read the dkim key
+#    sudo "usermod --append --groups opendkim dk-filter"
   end
 
   task :restart, :roles => [:email] do
