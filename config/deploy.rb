@@ -24,9 +24,9 @@ CONFIG_FILES = [
   {:path => "/etc/postfix/generic",   :mode => 0644, :owner => "root:root"},
   {:path => "/etc/postfix/main.cf",   :mode => 0644, :owner => "root:root"},
   {:path => "/etc/opendkim.conf",     :mode => 0644, :owner => "root:root"},
-  {:path => "/etc/mail/dkim.key",     :mode => 0440, :owner => "dk-filter:dk-filter"},
-  {:path => "/etc/mail/dkim.key.pub", :mode => 0444, :owner => "dk-filter:dk-filter"},
-  {:path => "/etc/default/dk-filter", :mode => 0644, :owner => "root:root"},
+  {:path => "/etc/mail/dkim.key",     :mode => 0440, :owner => "dkim-filter:dkim-filter"},
+  {:path => "/etc/mail/dkim.key.pub", :mode => 0444, :owner => "dkim-filter:dkim-filter"},
+  {:path => "/etc/default/dkim-filter", :mode => 0644, :owner => "root:root"},
 ]
 
 def config_file_paths
@@ -106,7 +106,7 @@ namespace :email do
   task :install_packages, :roles => [:email] do
     # assume Ubuntu/Debian
     apt_update
-    apt_install(%w{postfix opendkim dk-filter})
+    apt_install(%w{postfix opendkim dkim-filter})
   end
 
   task :backup_config, :roles => [:email] do
@@ -158,18 +158,18 @@ namespace :email do
     sudo "postmap /etc/postfix/generic"
     sudo "hostname -F /etc/hostname"
 
-    # add user opendkim to groups dk-filter so they can both read the dkim key
-    sudo "usermod --append --groups dk-filter opendkim"
+    # add user opendkim to groups dkim-filter so they can both read the dkim key
+    sudo "usermod --append --groups dkim-filter opendkim"
   end
 
   task :restart, :roles => [:email] do
-    # NOTE: There is a race condition starting opendkim and dk-filter over a pty
+    # NOTE: There is a race condition starting opendkim and dkim-filter over a pty
     #   on Ubuntu 10.04 (lucid), 10.10 (maverick), and 11.04 (natty). The sleep
     #   call holds the connection open long enough for the daemon to start.
     # Reported 20110415 to Ubuntu package maintainers (https://bugs.launchpad.net/ubuntu/+source/opendkim/+bug/761967)
     # Reported 20110415 to OpenDKIM mailing list (opendkim-users@lists.opendkim.org)
     run "#{sudo} /etc/init.d/opendkim  restart && sleep 1"
-    run "#{sudo} /etc/init.d/dk-filter restart && sleep 1"
+    run "#{sudo} /etc/init.d/dkim-filter restart && sleep 1"
     sudo "/etc/init.d/postfix restart"
   end
 
